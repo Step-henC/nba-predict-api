@@ -58,6 +58,30 @@ public class PlayerController {
     return new ResponseEntity<>(prediction, null, HttpStatus.CREATED);
   }
 
+  /*
+   * Creating this to make predictions without users. Not needed for AWS Lambda fn
+   * Eventually remove user logic
+   * 
+   */
+
+  @PostMapping("add-prediction")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Created Player Prediction"),
+      @ApiResponse(responseCode = "400", description = "Need 3 or more observations")
+  })
+  public ResponseEntity<PlayerPredictions> createPlayerPrediction(@PathVariable("userId") Integer userId,
+      @RequestBody List<PlayerProfile> entity) {
+
+    // Simple Regression needs more than two observations otherwise NaN
+    if (entity.size() <= 2 || entity == null) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    PlayerPredictions prediction = playerService.makePredictions(entity, userId);
+
+    return new ResponseEntity<>(prediction, null, HttpStatus.CREATED);
+  }
+
   @DeleteMapping("delete/{id}")
   public Integer deletePlayerPrediction(@PathVariable("id") Integer predictionId) {
 
