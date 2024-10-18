@@ -5,11 +5,6 @@ on:
     branches:
       - main
 
-env:
-  AWS_ECR_USERNAME: ${{secrets.AWS_ECR_USERNAME}}
-  AWS_ECR_PASSWORD: ${{secrets.AWS_ECR_PASSWORD}}
-  IMAGE_NAME: predict-stats-api
-
 permissions:
   contents: write
 jobs:
@@ -27,16 +22,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_SECRET_KEY }}
           aws-region: us-east-1
 
-      - name: Login to AWS ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR Public
+        id: login-ecr-public
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
 
-      - name: Build, tag, and push the image to Amazon ECR
-        id: build-image
+      - name: Build, tag, and push docker image to Amazon ECR Public
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: predict-stats-api
+          REGISTRY: ${{ steps.login-ecr-public.outputs.registry }}
+          REGISTRY_ALIAS: ${{ secrets.REGISTRY_ALIAS }}
+          REPOSITORY: predict-stats-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
