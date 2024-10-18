@@ -47,7 +47,7 @@ public class PlayerService {
         .withPredictedPoints(pointRegression.predict(Double.valueOf(2025)))
         .withPredictedAssists(asstRegression.predict(2025)).withPredictedRebounds(rebRegression.predict(2025));
 
-    predictionsRepository.save(prediction);
+    // predictionsRepository.save(prediction);
 
     return prediction;
 
