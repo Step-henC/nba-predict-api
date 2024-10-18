@@ -1,4 +1,4 @@
-name: AWS ECR Private Publish 
+name: AWS ECR Private Publish
 # Lambda only works with Private Images in Same region of account
 on:
   push:
@@ -32,5 +32,5 @@ jobs:
           REPOSITORY: private-predict-stats
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile.aws .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG

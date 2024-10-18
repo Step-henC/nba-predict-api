@@ -41,7 +41,7 @@ public class PlayerService {
     }
 
     PlayerPredictions prediction = new PlayerPredictions()
-        .withUserId(userId)
+        .withUserId(0)
         .withPlayerName(profiles.get(0).getPlayerName())
         .withLastSeasonPoints(profiles.get(profiles.size() - 1).getPoints())
         .withPredictedPoints(pointRegression.predict(Double.valueOf(2025)))

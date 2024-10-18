@@ -69,7 +69,7 @@ public class PlayerController {
       @ApiResponse(responseCode = "201", description = "Created Player Prediction"),
       @ApiResponse(responseCode = "400", description = "Need 3 or more observations")
   })
-  public ResponseEntity<PlayerPredictions> createPlayerPrediction(@PathVariable("userId") Integer userId,
+  public ResponseEntity<PlayerPredictions> createPlayerPrediction(
       @RequestBody List<PlayerProfile> entity) {
 
     // Simple Regression needs more than two observations otherwise NaN
@@ -77,7 +77,7 @@ public class PlayerController {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    PlayerPredictions prediction = playerService.makePredictions(entity, userId);
+    PlayerPredictions prediction = playerService.makePredictions(entity, 0);
 
     return new ResponseEntity<>(prediction, null, HttpStatus.CREATED);
   }

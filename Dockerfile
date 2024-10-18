@@ -7,4 +7,5 @@ RUN mvn package -DskipTests
 # Second stage: create a slim image
 FROM openjdk:17.0-jdk
 COPY --from=build /app/target/predict-0.0.1-SNAPSHOT.jar /app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
