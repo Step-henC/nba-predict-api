@@ -21,5 +21,7 @@ For H2 console, go to browser and enter `http://localhost:8080/h2-console`. User
   run `docker build -t yourtag/here .`
   then executed `docker run -p 8080:8080 yourtag/here`
 
-# Future Directions
-Dockerize. Unit test. Error handle -> check for duplicate user names. Hash and salt user passwords. Use a DB not in-mem. Include JWTs and ramp up security.
+## Building with AWS 
+
+Used AWS ECS to host backend. The output CloudFormation template is in the root dir of this product
+entitiled `aws-ecs-template.json` and available on port 8080 on formation. 
